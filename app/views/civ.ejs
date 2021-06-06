@@ -1,0 +1,11 @@
+<% var title = 'Civ Picker'; %> 
+<% include('head', {title: title}) %> 
+
+<h2>Civ Picker Page</h2>
+<div>
+    <% output.forEach((civ) => { %> 
+        <p><%= civ %></p>
+    <% }); %>     
+</div>
+
+<% include('foot') %> 
