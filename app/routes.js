@@ -22,7 +22,7 @@ function handleStatus(req, res) {
 }
 
 function handleCiv(civs, players) {
-    return async (_, res) => {
+    return (_, res) => {
         const max = nconf.get('TIER_MAX');
         const min = nconf.get('TIER_MIN');
         const output = [];
