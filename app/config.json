@@ -1,5 +1,5 @@
 {
-    "PORT": 5555,
+    "PORT": 80,
     "TIER_MIN": 6,
     "TIER_MAX": 2
 }
