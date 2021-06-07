@@ -37,6 +37,11 @@ async function launch() {
     
     app.listen(port);
     logger.logInfo('MAIN', `Listening on port ${port}...`);
+
+    while (true) {
+        logger.logInfo('MAIN', 'HEARTBEAT');
+        await new Promise(res => setTimeout(res, nconf.get('HEARTBEAT_INTERVAL_MS')));
+    }
 }
 
 nconf.file('app/config.json');

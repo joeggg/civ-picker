@@ -1,4 +1,5 @@
 'use strict';
+const util = require('util');
 const nconf = require('nconf');
 
 const http = require('./util/http_status');
@@ -23,20 +24,23 @@ function handleStatus(req, res) {
 
 function handleCiv(civs, players) {
     return (_, res) => {
+        // New variable so civs not modified
+        let civList = Array.from(civs);
         const max = nconf.get('TIER_MAX');
         const min = nconf.get('TIER_MIN');
         const output = [];
+        // Generate civ within max/min tiers and remove result
         for (const player of players) {
             let select, tier;
             do {
-                select = Math.floor(civs.length*Math.random());
-                tier = parseInt(civs[select].Tier);
+                select = Math.floor(civList.length*Math.random());
+                tier = parseInt(civList[select].Tier);
             } while (tier < max || tier > min);
 
-            output.push(`${player}: ${civs[select].Name}`);
-            civs.splice(select, 1);
+            output.push(`${player}: ${civList[select].Name}`);
+            civList.splice(select, 1);
         }
-        logger.logInfo('CIV', output);
+        logger.logInfo('CIV', `Generated civs: \n${util.inspect(output)}`);
         res.render('civ', {output: output});
     };
 }
