@@ -1,6 +1,6 @@
 {
     "PORT": 80,
-    "HEARTBEAT_INTERVAL_MS": 5000,
-    "TIER_MIN": 6,
-    "TIER_MAX": 2
+    "HEARTBEAT_INTERVAL_MS": 60000,
+    "TIER_MIN": 8, 
+    "TIER_MAX": 1
 }

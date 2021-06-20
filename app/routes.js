@@ -22,7 +22,7 @@ function handleStatus(req, res) {
     res.status(http.OK).send(response);
 }
 
-function handleCiv(civs, players) {
+function handleCiv(civs, players, excludelist) {
     return (_, res) => {
         // New variable so civs not modified
         let civList = Array.from(civs);
@@ -35,9 +35,11 @@ function handleCiv(civs, players) {
             do {
                 select = Math.floor(civList.length*Math.random());
                 tier = parseInt(civList[select].Tier);
-            } while (tier < max || tier > min);
+            } while (tier < max || tier > min || excludelist.includes(civList[select].Name));
 
-            output.push(`${player}: ${civList[select].Name}`);
+            output.push(
+                `${player}: ${civList[select].Name}, Tier ${civList[select].Tier}`
+            );
             civList.splice(select, 1);
         }
         logger.logInfo('CIV', `Generated civs: \n${util.inspect(output)}`);

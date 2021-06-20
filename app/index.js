@@ -17,7 +17,8 @@ async function loadLists(path) {
         .on('data', (data) => civs.push(data))
         .on('end', () => {
             const players = fs.readFileSync('data/players.txt').toString().split('\r\n');
-            resolve({civs, players});
+            const excludelist = fs.readFileSync('data/excludelist.txt').toString().split('\r\n');
+            resolve({civs, players, excludelist});
         });
     });
 }
@@ -25,7 +26,7 @@ async function loadLists(path) {
 
 async function launch() {
     const port = nconf.get('PORT');
-    const { civs, players } = await loadLists('data/civ_list.csv');
+    const { civs, players, excludelist } = await loadLists('data/civ_list.csv');
 
     const app = express();
     app.set('view engine', 'ejs');
@@ -33,7 +34,7 @@ async function launch() {
     app.use(express.urlencoded({extended: true}));
 
     app.get('/status', routes.handleStatus);
-    app.get('/civ', routes.handleCiv(civs, players));
+    app.get('/civ', routes.handleCiv(civs, players, excludelist));
     
     app.listen(port);
     logger.logInfo('MAIN', `Listening on port ${port}...`);
